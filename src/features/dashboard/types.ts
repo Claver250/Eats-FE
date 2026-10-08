@@ -24,3 +24,15 @@ export type RevenueProfileData = {
     change: number;
     series: RevenuePoint[];
 };
+
+export type AnalyticsPoint = {
+    day: string;
+    current: number;
+    previous: number;
+};
+
+export type OrderAnalyticsData = {
+    total: number;
+    change: number;
+    series: AnalyticsPoint[];
+};
