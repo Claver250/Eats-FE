@@ -36,3 +36,15 @@ export type OrderAnalyticsData = {
     change: number;
     series: AnalyticsPoint[];
 };
+
+export type OrderStatus = "Delivered" | "Pending" | "On the way" | "Cancelled";
+
+export type Order = {
+    id: string;
+    restaurant: string;
+    customer: string;
+    date: string; // ISO string, formatted at display time
+    items: number;
+    amount: number;
+    status: OrderStatus;
+};

@@ -1,4 +1,4 @@
-import type { Kpi, PerformanceMetric, RevenueProfileData, OrderAnalyticsData } from "@/features/dashboard/types";
+import type { Kpi, PerformanceMetric, RevenueProfileData, OrderAnalyticsData, Order } from "@/features/dashboard/types";
 
 export const kpis: Kpi[] = [
     { id: "restaurants", label: "Total Restaurant", value: 10000, format: "number", change: 17 },
@@ -63,3 +63,18 @@ export function getOrderAnalytics(
     });
     return { total: Math.round(12120 * k), change: 15, series };
 }
+
+export const orders: Order[] = [
+    { id: "#26839628288", restaurant: "Al Baik Fast Food Shop", customer: "Muhammed Fateh", date: "2024-12-22T11:20:00", items: 200, amount: 5576.9, status: "Delivered" },
+    { id: "#26839628289", restaurant: "Taza Bukari House", customer: "Mukarram Kazi", date: "2024-12-22T11:30:00", items: 1050, amount: 5576.9, status: "Delivered" },
+    { id: "#26839628290", restaurant: "Al Tazaz Fast Food Shop", customer: "Muhammed Khan", date: "2024-12-22T13:20:00", items: 2090, amount: 5576.9, status: "Delivered" },
+    { id: "#26839628291", restaurant: "Burger Hub", customer: "Aisha Bello", date: "2024-12-22T14:05:00", items: 340, amount: 2310.5, status: "Pending" },
+    { id: "#26839628292", restaurant: "Mama Put Kitchen", customer: "Tunde Adeyemi", date: "2024-12-22T14:40:00", items: 75, amount: 980.0, status: "On the way" },
+    { id: "#26839628293", restaurant: "Al Baik Fast Food Shop", customer: "Fatima Yusuf", date: "2024-12-22T15:10:00", items: 410, amount: 3120.75, status: "Cancelled" },
+    { id: "#26839628294", restaurant: "Taza Bukari House", customer: "Chidi Okafor", date: "2024-12-22T15:55:00", items: 160, amount: 1745.2, status: "Delivered" },
+    { id: "#26839628295", restaurant: "Pizza Corner", customer: "Zainab Musa", date: "2024-12-22T16:30:00", items: 520, amount: 4200.0, status: "Delivered" },
+    { id: "#26839628296", restaurant: "Burger Hub", customer: "Emeka Obi", date: "2024-12-22T17:00:00", items: 90, amount: 1120.4, status: "Pending" },
+    { id: "#26839628297", restaurant: "Mama Put Kitchen", customer: "Ngozi Eze", date: "2024-12-22T17:45:00", items: 260, amount: 2890.0, status: "On the way" },
+    { id: "#26839628298", restaurant: "Pizza Corner", customer: "Ibrahim Sani", date: "2024-12-22T18:15:00", items: 310, amount: 3560.3, status: "Delivered" },
+    { id: "#26839628299", restaurant: "Al Tazaz Fast Food Shop", customer: "Blessing Udo", date: "2024-12-22T19:00:00", items: 45, amount: 640.0, status: "Cancelled" },
+];

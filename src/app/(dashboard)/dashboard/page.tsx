@@ -2,6 +2,7 @@ import KpiSummary from "@/features/dashboard/components/KpiSummary";
 import OrderAnalytics from "@/features/dashboard/components/OrderAnalytics";
 import OrderPerformance from "@/features/dashboard/components/OrderPerformance";
 import RevenueProfile from "@/features/dashboard/components/RevenueProfile";
+import OrderActivities from "@/features/dashboard/components/OrderActivities";
 import { kpis, orderPerformance, revenueProfile } from "@/mocks/dashboard";
 
 export default function DashboardPage() {
@@ -16,6 +17,10 @@ export default function DashboardPage() {
             <OrderAnalytics />
         </div>
         <RevenueProfile data={revenueProfile} />
+
+        <div className="xl:col-span-3">
+            <OrderActivities />
+        </div>
         </div>
     );
 }
