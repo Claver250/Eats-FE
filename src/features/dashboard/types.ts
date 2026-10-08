@@ -12,3 +12,15 @@ export type PerformanceMetric = {
     percent: number;
     tone: "success" | "warning" | "danger";
 };
+
+export type RevenuePoint = {
+    date: string;
+    revenue: number;
+    baseline: number;
+};
+
+export type RevenueProfileData = {
+    total: number;
+    change: number;
+    series: RevenuePoint[];
+};
