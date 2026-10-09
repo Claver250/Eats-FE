@@ -2,7 +2,7 @@ import { Bell, Search } from "lucide-react";
 
 export default function Topbar({ title = "Dashboard" }: { title?: string }) {
     return (
-        <header className="flex items-center justify-between gap-4 border-b border-border bg-surface px-6 py-4">
+        <header className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-border bg-surface px-6 py-4">
         <h1 className="text-lg font-semibold">{title}</h1>
 
         <div className="flex items-center gap-4">

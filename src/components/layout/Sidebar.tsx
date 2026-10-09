@@ -29,7 +29,7 @@ function NavLink({ item }: { item: NavItem }) {
 
 export default function Sidebar() {
     return (
-        <aside className="hidden w-64 shrink-0 flex-col gap-6 border-r border-border bg-surface p-4 lg:flex">
+        <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r border-border bg-surface p-4 lg:flex">
         <div className="flex items-center gap-2 px-1">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-lg font-bold text-white">
             W
