@@ -29,3 +29,10 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
 }
+
+/* Remove the black focus box Recharts shows after clicking a chart */
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus,
+.recharts-surface:focus {
+  outline: none;
+}
