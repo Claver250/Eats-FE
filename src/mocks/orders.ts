@@ -1,4 +1,4 @@
-import type { OrderStat, OverviewPoint } from "@/features/orders/types";
+import type { OrderStat, OverviewPoint, StatusSegment } from "@/features/orders/types";
 
 export const orderStats: OrderStat[] = [
     { id: "total", label: "Total Orders", value: 12120, change: 15, goodWhen: "up" },
@@ -10,7 +10,7 @@ export const orderStats: OrderStat[] = [
 
 export const ordersOverview: OverviewPoint[] = Array.from({ length: 30 }, (_, i) => ({
     day: `Apr ${String(i + 1).padStart(2, "0")}`,
-    completed: Math.round(
+    delivered: Math.round(
         450 + i * 52 + Math.sin(i * 2.3) * 140 + Math.cos(i * 4.1) * 90,
     ),
     pending: Math.round(
@@ -20,3 +20,9 @@ export const ordersOverview: OverviewPoint[] = Array.from({ length: 30 }, (_, i)
         120 + i * 8 + Math.sin(i * 3.4) * 28 + Math.cos(i * 6.1) * 18,
     ),
 }));
+
+export const orderStatus: StatusSegment[] = [
+    { id: "delivered", label: "Completed", count: 10245 },
+    { id: "pending", label: "Pending", count: 1230 },
+    { id: "cancelled", label: "Cancelled", count: 645 },
+];

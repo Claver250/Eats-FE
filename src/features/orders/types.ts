@@ -9,7 +9,13 @@ export type OrderStat = {
 
 export type OverviewPoint = {
     day: string;
-    completed: number;
+    delivered: number;
     pending: number;
     cancelled: number;
+};
+
+export type StatusSegment = {
+    id: "delivered" | "pending" | "cancelled";
+    label: string;
+    count: number;
 };

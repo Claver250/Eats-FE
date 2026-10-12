@@ -70,7 +70,7 @@ export default function OrdersOverview({ data }: { data: OverviewPoint[] }) {
                 />
                 <Area
                 type="linear"
-                dataKey="completed"
+                dataKey="delivered"
                 name="Completed"
                 stroke="var(--color-brand-500)"
                 strokeWidth={2}

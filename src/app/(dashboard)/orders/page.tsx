@@ -1,6 +1,7 @@
 import OrdersOverview from "@/features/orders/components/OrdersOverview";
 import StatCards from "@/features/orders/components/StatsCards";
-import { orderStats, ordersOverview } from "@/mocks/orders";
+import OrderStatus from "@/features/orders/components/OrderStatus";
+import { orderStats, ordersOverview, orderStatus } from "@/mocks/orders";
 
 export default function OrdersPage() {
   return (
@@ -18,7 +19,7 @@ export default function OrdersPage() {
         <div className="xl:col-span-2">
           <OrdersOverview data={ordersOverview} />
         </div>
-        {/* Order Status donut goes here */}
+        <OrderStatus segments={orderStatus} />
       </div>
     </div>
   );
