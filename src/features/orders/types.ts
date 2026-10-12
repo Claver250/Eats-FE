@@ -6,3 +6,10 @@ export type OrderStat = {
     change: number;
     goodWhen: "up" | "down";
 };
+
+export type OverviewPoint = {
+    day: string;
+    completed: number;
+    pending: number;
+    cancelled: number;
+};

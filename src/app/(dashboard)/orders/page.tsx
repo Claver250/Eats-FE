@@ -1,5 +1,6 @@
+import OrdersOverview from "@/features/orders/components/OrdersOverview";
 import StatCards from "@/features/orders/components/StatsCards";
-import { orderStats } from "@/mocks/orders";
+import { orderStats, ordersOverview } from "@/mocks/orders";
 
 export default function OrdersPage() {
   return (
@@ -12,6 +13,13 @@ export default function OrdersPage() {
       </div>
 
       <StatCards stats={orderStats} />
+
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <div className="xl:col-span-2">
+          <OrdersOverview data={ordersOverview} />
+        </div>
+        {/* Order Status donut goes here */}
+      </div>
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function TrendBadge({
     const Icon = up ? ArrowUp : ArrowDown;
 
     return (
-        <span className="inline-flex items-center gap-1.5">
+        <span className="inline-flex flex-wrap items-center gap-x-1.5 gap-y-1">
         <span
             className={cn(
             "inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium",
@@ -27,7 +27,7 @@ export default function TrendBadge({
             <Icon className="h-3 w-3" />
             {Math.abs(change)}%
         </span>
-        <span className="text-xs text-muted">{label}</span>
+        <span className="whitespace-nowrap text-xs text-muted">{label}</span>
         </span>
     );
 }
