@@ -1,10 +1,10 @@
 export const formatNumber = (n: number) =>
     new Intl.NumberFormat("en-US").format(n);
 
-export const formatCurrency = (n: number, digits = 0) =>
-    new Intl.NumberFormat("en-US", {
+export const formatCurrency = (n: number, digits = 0, currency = "USD") =>
+    new Intl.NumberFormat(currency === "NGN" ? "en-NG" : "en-US", {
         style: "currency",
-        currency: "USD",
+        currency,
         minimumFractionDigits: digits,
         maximumFractionDigits: digits,
     }).format(n);

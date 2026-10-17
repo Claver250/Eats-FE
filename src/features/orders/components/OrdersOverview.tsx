@@ -13,7 +13,7 @@ import {
 import type { OverviewPoint } from "../types";
 
 const legend = [
-    { label: "Completed", color: "var(--color-brand-500)" },
+    { label: "Delivered", color: "var(--color-brand-500)" },
     { label: "Pending", color: "var(--color-warning)" },
     { label: "Cancelled", color: "var(--color-danger)" },
 ];
@@ -70,8 +70,8 @@ export default function OrdersOverview({ data }: { data: OverviewPoint[] }) {
                 />
                 <Area
                 type="linear"
-                dataKey="delivered"
-                name="Completed"
+                dataKey="completed"
+                name="Delivered"
                 stroke="var(--color-brand-500)"
                 strokeWidth={2}
                 fill="url(#completedFill)"

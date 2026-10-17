@@ -2,7 +2,7 @@ import { formatNumber } from "@/lib/formatters";
 import type { StatusSegment } from "../types";
 
 const colors: Record<StatusSegment["id"], string> = {
-    delivered: "var(--color-brand-600)",
+    completed: "var(--color-brand-600)",
     pending: "var(--color-warning)",
     cancelled: "var(--color-danger)",
 };

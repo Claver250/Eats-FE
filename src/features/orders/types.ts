@@ -9,13 +9,28 @@ export type OrderStat = {
 
 export type OverviewPoint = {
     day: string;
-    delivered: number;
+    completed: number;
     pending: number;
     cancelled: number;
 };
 
 export type StatusSegment = {
-    id: "delivered" | "pending" | "cancelled";
+    id: "completed" | "pending" | "cancelled";
     label: string;
     count: number;
+};
+
+export type OrderState = "Delivered" | "Pending" | "Cancelled";
+
+export type OrderRow = {
+    id: string;
+    kind: "Delivery" | "Pickup";
+    restaurant: string;
+    area: string;
+    phone: string;
+    customer: string;
+    date: string; // ISO
+    items: number;
+    amount: number;
+    status: OrderState;
 };

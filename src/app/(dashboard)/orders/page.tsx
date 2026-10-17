@@ -1,7 +1,8 @@
-import OrdersOverview from "@/features/orders/components/OrdersOverview";
-import StatCards from "@/features/orders/components/StatsCards";
 import OrderStatus from "@/features/orders/components/OrderStatus";
-import { orderStats, ordersOverview, orderStatus } from "@/mocks/orders";
+import OrdersOverview from "@/features/orders/components/OrdersOverview";
+import OrdersTable from "@/features/orders/components/OrderTable";
+import StatCards from "@/features/orders/components/StatsCards";
+import { orderRows, orderStats, orderStatus, ordersOverview } from "@/mocks/orders";
 
 export default function OrdersPage() {
   return (
@@ -21,6 +22,8 @@ export default function OrdersPage() {
         </div>
         <OrderStatus segments={orderStatus} />
       </div>
+
+      <OrdersTable rows={orderRows} />
     </div>
   );
 }
