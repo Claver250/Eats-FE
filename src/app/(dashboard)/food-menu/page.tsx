@@ -1,3 +1,5 @@
-export default function Page() {
-  return <div className="p-8 text-muted">Coming soon</div>;
+import FoodMenuView from "@/features/food-menu/components/FoodMenuView";
+
+export default function FoodMenuPage() {
+  return <FoodMenuView />;
 }
