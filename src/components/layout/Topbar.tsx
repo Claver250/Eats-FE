@@ -7,7 +7,7 @@ import MobileNav from "./MobileNav";
 
 // Pages that render their own large heading, so the topbar skips the title
 // and shows the long search bar instead. Add each new page here as you build it.
-const pagesWithOwnHeading = ["/dashboard", "/orders", "/food-menu"];
+const pagesWithOwnHeading = ["/dashboard", "/orders", "/food-menu", "/restaurant-menu", "/reports", "/payments"];
 
 const allNav = [...mainNav, ...otherNav];
 
