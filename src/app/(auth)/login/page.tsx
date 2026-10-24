@@ -1,3 +1,8 @@
-export default function Page() {
-  return <div className="p-8 text-muted">Coming soon</div>;
+import type { Metadata } from "next";
+import LoginForm from "@/features/admin-auth/components/LoginForm";
+
+export const metadata: Metadata = { title: "Sign in · WeEats Admin" };
+
+export default function LoginPage() {
+  return <LoginForm />;
 }
