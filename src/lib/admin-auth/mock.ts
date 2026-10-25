@@ -1,10 +1,23 @@
-import { AuthError, type AdminSession, type AuthApi, type SignupInput } from "./types";
+import {
+  AuthError,
+  parseSession,
+  type AuthApi,
+  type Role,
+  type Session,
+  type SignupInput,
+} from "./types";
 
-// DEMO ONLY. This stands in for the backend until the real API exists. It keeps accounts in the
-// page's memory (they disappear on refresh), compares passwords in plain text and issues no real session.
+// DEMO ONLY. This stands in for the backend until the real API exists. Accounts live in the page's
+// memory (they disappear on refresh), passwords are compared in plain text, and the "session" is a
+// small note in this tab's sessionStorage. The real backend uses an HttpOnly cookie instead.
 // It must never hold real people's details.
-export const DEMO_EMAIL = "admin@weeats.test";
-export const DEMO_PASSWORD = "Admin-Demo-2025";
+export const DEMO_ACCOUNTS: { role: Role; label: string; email: string; password: string }[] = [
+  { role: "super_admin", label: "Super admin", email: "admin@weeats.test", password: "Admin-Demo-2025" },
+  { role: "finance_admin", label: "Finance admin", email: "finance@weeats.test", password: "Finance-Demo-2025" },
+  { role: "restaurant_owner", label: "Restaurant owner", email: "owner@weeats.test", password: "Owner-Demo-2025" },
+];
+export const DEMO_EMAIL = DEMO_ACCOUNTS[0].email;
+export const DEMO_PASSWORD = DEMO_ACCOUNTS[0].password;
 
 type MockUser = {
   id: string;
@@ -12,14 +25,28 @@ type MockUser = {
   phone: string;
   email: string;
   password: string;
-  status: "approved" | "pending";
+  role: Role | null; // null until an administrator approves the account and gives it a role
+  restaurantId?: string;
 };
 
 const users: MockUser[] = [
-  { id: "u-demo", name: "Demo Admin", phone: "+2348012345678", email: DEMO_EMAIL, password: DEMO_PASSWORD, status: "approved" },
+  { id: "u-super", name: "Demo Admin", phone: "+2348012345678", email: DEMO_ACCOUNTS[0].email, password: DEMO_ACCOUNTS[0].password, role: "super_admin" },
+  { id: "u-finance", name: "Femi Finance", phone: "+2348023456789", email: DEMO_ACCOUNTS[1].email, password: DEMO_ACCOUNTS[1].password, role: "finance_admin" },
+  { id: "u-owner", name: "Mama Cass Owner", phone: "+2348034567890", email: DEMO_ACCOUNTS[2].email, password: DEMO_ACCOUNTS[2].password, role: "restaurant_owner", restaurantId: "WE-REST-001" },
 ];
 
-let current: AdminSession | null = null;
+const STORAGE_KEY = "weeats-demo-session";
+
+function readStored(): Session | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(STORAGE_KEY);
+    return raw ? parseSession(JSON.parse(raw)) : null;
+  } catch {
+    return null;
+  }
+}
+
 let latency = 400;
 export function setMockLatency(ms: number) {
   latency = ms;
@@ -52,10 +79,17 @@ export const mockAuth: AuthApi = {
 
     failures.delete(key);
     // Approval is only revealed after the password was right, so it can't be used to discover accounts.
-    if (user.status === "pending") throw new AuthError("pending_approval");
+    if (!user.role) throw new AuthError("pending_approval");
 
-    current = { id: user.id, name: user.name, email: user.email, role: "admin" };
-    return current;
+    const session: Session = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      ...(user.restaurantId ? { restaurantId: user.restaurantId } : {}),
+    };
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    return session;
   },
 
   async signup(input: SignupInput) {
@@ -70,23 +104,26 @@ export const mockAuth: AuthApi = {
       phone: input.phone,
       email,
       password: input.password,
-      status: "pending",
+      role: null,
     });
   },
 
   async logout() {
     await wait();
-    current = null;
+    window.sessionStorage.removeItem(STORAGE_KEY);
   },
 
   async me() {
-    return current;
+    return readStored();
   },
 };
 
-// Lets a demo approve the account it just requested. Not part of AuthApi: the real approval
-// happens in the backend, by an existing admin.
-export function approveMockUser(email: string) {
+// Lets a demo approve the account it just requested, and choose its role. Not part of AuthApi:
+// in the real system an existing super admin does this, in the backend.
+export function approveMockUser(email: string, role: Role, restaurantId?: string) {
   const u = users.find((x) => x.email === norm(email));
-  if (u) u.status = "approved";
+  if (u) {
+    u.role = role;
+    u.restaurantId = restaurantId;
+  }
 }

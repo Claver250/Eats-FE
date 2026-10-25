@@ -1,4 +1,4 @@
-import { AuthError, type AdminSession, type AuthApi, type SignupInput } from "./types";
+import { AuthError, parseSession, type AuthApi, type Session, type SignupInput } from "./types";
 
 // The real client. It follows the contract proposed to the backend (POST /auth/login, /auth/signup,
 // /auth/logout and GET /auth/me) and expects the server to set an HttpOnly session cookie.
@@ -27,18 +27,16 @@ async function codeOf(res: Response): Promise<string | undefined> {
   }
 }
 
-function asSession(data: unknown): AdminSession {
-  const d = data as Partial<AdminSession> | null;
-  if (!d || typeof d.id !== "string" || typeof d.name !== "string" || typeof d.email !== "string" || d.role !== "admin") {
-    throw new AuthError("unknown");
-  }
-  return { id: d.id, name: d.name, email: d.email, role: "admin" };
+async function readSession(res: Response): Promise<Session> {
+  const session = parseSession(await res.json().catch(() => null));
+  if (!session) throw new AuthError("unknown"); // an unknown role is refused, never guessed at
+  return session;
 }
 
 export const httpAuth: AuthApi = {
   async login(email, password) {
     const res = await call("/auth/login", "POST", { email, password });
-    if (res.ok) return asSession(await res.json());
+    if (res.ok) return readSession(res);
     if (res.status === 429 || res.status === 423) throw new AuthError("rate_limited");
     if (res.status === 403 && (await codeOf(res)) === "pending_approval") throw new AuthError("pending_approval");
     if (res.status === 400 || res.status === 401) throw new AuthError("invalid_credentials");
@@ -62,6 +60,6 @@ export const httpAuth: AuthApi = {
     const res = await call("/auth/me", "GET");
     if (res.status === 401) return null;
     if (!res.ok) throw new AuthError("unknown");
-    return asSession(await res.json());
+    return readSession(res);
   },
 };

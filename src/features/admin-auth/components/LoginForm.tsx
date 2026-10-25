@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AuthError, auth, isMockAuth } from "@/lib/admin-auth";
-import { DEMO_EMAIL, DEMO_PASSWORD } from "@/lib/admin-auth/mock";
-import { safeNext } from "@/lib/admin-auth/redirect";
+import { landingFor } from "@/lib/admin-auth/access";
+import { DEMO_ACCOUNTS } from "@/lib/admin-auth/mock";
 import { isEmail } from "@/lib/admin-auth/validators";
 import { authErrorMessage } from "../messages";
 import AuthShell from "./AuthShell";
@@ -42,8 +42,9 @@ export default function LoginForm() {
     inFlight.current = true;
     setSubmitting(true);
     try {
-      await auth.login(email.trim(), password);
-      router.replace(safeNext(new URLSearchParams(window.location.search).get("next")));
+      const session = await auth.login(email.trim(), password);
+      // The page they asked for if their role may open it, otherwise the home page for their role.
+      router.replace(landingFor(session.role, new URLSearchParams(window.location.search).get("next")));
     } catch (err) {
       setFormError(authErrorMessage(err instanceof AuthError ? err.code : "unknown", "login"));
       setPassword(""); // never leave a rejected password sitting in the field
@@ -56,7 +57,7 @@ export default function LoginForm() {
   return (
     <AuthShell
       title="Sign in"
-      subtitle="Use your administrator email and password."
+      subtitle="Use your WeEats email and password."
       footer={
         <>
           Don’t have an account?{" "}
@@ -110,10 +111,33 @@ export default function LoginForm() {
       </form>
 
       {isMockAuth && (
-        <p className="mt-5 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-700">
-          Demo mode: sign in with <span className="font-semibold">{DEMO_EMAIL}</span> and{" "}
-          <span className="font-semibold">{DEMO_PASSWORD}</span>. No real accounts exist yet.
-        </p>
+        <div className="mt-5 rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
+          <p className="font-semibold">Demo mode. No real accounts exist yet.</p>
+          <ul className="mt-2 space-y-2">
+            {DEMO_ACCOUNTS.map((a) => (
+              <li key={a.email} className="flex items-center justify-between gap-2">
+                <span className="min-w-0">
+                  <span className="block font-medium">{a.label}</span>
+                  <span className="block break-all text-amber-700">
+                    {a.email} · {a.password}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail(a.email);
+                    setPassword(a.password);
+                    setErrors({});
+                    setFormError("");
+                  }}
+                  className="shrink-0 rounded border border-amber-300 px-2 py-1 font-medium hover:bg-amber-100"
+                >
+                  Use
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </AuthShell>
   );
