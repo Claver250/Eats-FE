@@ -6,17 +6,23 @@ import { X } from "lucide-react";
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+const widths = {
+  sm: "sm:max-w-md", // short summaries and confirmations
+  lg: "sm:max-w-2xl", // long forms
+} as const;
+
 type Props = {
   title: string;
   description?: string;
   icon?: ReactNode;
+  size?: keyof typeof widths; // width on larger screens, "lg" by default
   onClose: () => void; // called for Escape, the X button and clicks on the backdrop
   children: ReactNode; // usually a <form className="flex min-h-0 flex-1 flex-col">
 };
 
 // Accessible dialog shell: focus moves in on open, Tab stays inside, Escape closes,
 // the page behind stops scrolling, and focus returns to the button that opened it.
-export default function Modal({ title, description, icon, onClose, children }: Props) {
+export default function Modal({ title, description, icon, size = "lg", onClose, children }: Props) {
   const titleId = useId();
   const descId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -81,7 +87,7 @@ export default function Modal({ title, description, icon, onClose, children }: P
         aria-labelledby={titleId}
         aria-describedby={description ? descId : undefined}
         onKeyDown={keepFocusInside}
-        className="relative flex max-h-[100dvh] w-full flex-col rounded-t-2xl bg-surface shadow-xl sm:max-h-[90vh] sm:max-w-2xl sm:rounded-2xl"
+        className={`relative flex max-h-[100dvh] w-full flex-col rounded-t-2xl bg-surface shadow-xl sm:max-h-[90vh] sm:rounded-2xl ${widths[size]}`}
       >
         <div className="flex shrink-0 items-start gap-3 border-b border-border px-6 py-4">
           {icon && (

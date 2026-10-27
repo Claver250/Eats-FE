@@ -3,7 +3,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 
 // The signed-in pages wait for the sign-in check before showing content, on purpose.
-export const instant = false;
+//export const instant = false;
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

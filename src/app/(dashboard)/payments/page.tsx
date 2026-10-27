@@ -1,3 +1,5 @@
-export default function Page() {
-    return <div className="p-8 text-muted">Coming soon</div>;
+import PaymentsView from "@/features/payments/components/PaymentView";
+
+export default function PaymentsPage() {
+  return <PaymentsView />;
 }
